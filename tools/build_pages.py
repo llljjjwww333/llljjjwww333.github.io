@@ -15,6 +15,9 @@ def education():
 def publications():
     rows=[]
     for x in d['publications']:
+        if x.get('detail_html'):
+            rows.append(x['detail_html'])
+            continue
         title=e(x['title'])
         if x.get('url'): title=f'<a href="{e(x["url"], quote=True)}">{title}</a>'
         rows.append(f'<article class="entry publication"><h3>{title}</h3><p>{e(x["authors"])}</p><p class="publication-status">{e(x["status"])}</p></article>')
@@ -34,12 +37,12 @@ for key, title, folder in pages:
         content+='</div></section>'
     elif key=='cv':
         content='<h1>Curriculum vitae</h1>'+downloads+'<p class="updated">Last updated '+e(d['updated'])+'</p>'
-        content+='<nav class="page-index" aria-label="CV sections"><a href="#education">Education</a><a href="#experience">Experience</a><a href="#manuscripts">Manuscripts</a><a href="#awards">Awards</a><a href="#skills">Skills</a></nav>'
-        content+=education()+section('experience')+'<section id="manuscripts"><h2>Manuscripts</h2>'+publications()+'</section>'+section('awards')+section('skills')
+        content+='<nav class="page-index" aria-label="CV sections"><a href="#education">Education</a><a href="#experience">Experience</a><a href="../publications/">Publications ↗</a><a href="#awards">Awards</a><a href="#skills">Skills</a></nav>'
+        content+=education()+section('experience')+section('awards')+section('skills')
         for k,label in [('teaching','Teaching'),('service','Academic service')]:
             if d.get(k): content+=f'<section id="{k}"><h2>{label}</h2><ul>'+''.join('<li>'+e(x)+'</li>' for x in d[k])+'</ul></section>'
     elif key=='publications':
-        content='<h1>Publications &amp; manuscripts</h1>'+publications()
+        content='<h1>Publications</h1>'+publications()
     else:
         content=section(key).replace('<h2>', '<h1>', 1).replace('</h2>', '</h1>', 1)
     nav=''.join(f'<a href="{prefix}{slug+"/" if slug else ""}"'+(' aria-current="page"' if k==key else '')+'>'+label+'</a>' for k,label,slug in pages)
