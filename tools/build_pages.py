@@ -32,7 +32,7 @@ for key, title, folder in pages:
     if key=='about':
         content='<h1>About me</h1>'+''.join('<p class="bio">'+e(x)+'</p>' for x in d['bio'])
         content+='<section class="explore"><h2>Explore</h2><div class="explore-grid">'
-        for slug,label,description in [('research','Research','Current research questions and projects.'),('cv','Curriculum vitae','Education, experience, and academic background.'),('publications','Publications','Manuscripts and scholarly work.'),('projects','Projects','Selected software and data applications.')]:
+        for slug,label,description in [('research','Research','Current research questions and projects.'),('cv','Curriculum vitae','Education, experience, and academic background.'),('publications','Publications','Published papers and scholarly work.'),('projects','Projects','Selected software and data applications.')]:
             content+=f'<a class="explore-link" href="{prefix}{slug}/"><strong>{label}<span>↗</span></strong><p>{description}</p></a>'
         content+='</div></section>'
     elif key=='cv':
